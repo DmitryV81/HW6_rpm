@@ -2,15 +2,16 @@
 # vi: set ft=ruby :
 Vagrant.configure(2) do |config|
   config.vm.box = "centos/7"
-  config.vm.box_version = "2004.01"
+  #config.vm.box = "generic/centos8s"
+  #config.vm.box_version = "v4.2.4"
   config.vm.provider "virtualbox" do |v|
-    v.memory = 256
+    v.memory = 512
     v.cpus = 1
   end
   config.vm.define "rpm" do |nfss|
     nfss.vm.network "private_network", ip: "192.168.50.10",
     virtualbox__intnet: "net1"
     nfss.vm.hostname = "rpm"
-    #nfss.vm.provision "shell", path: "nfss_script.sh"
+    nfss.vm.provision "shell", path: "rpm.sh"
   end
 end

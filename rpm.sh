@@ -10,16 +10,13 @@ yum-builddep -y rpmbuild/SPECS/nginx.spec
 \cp /vagrant/nginx.spec rpmbuild/SPECS/nginx.spec
 rpmbuild -bb rpmbuild/SPECS/nginx.spec
 ll rpmbuild/RPMS/x86_64/
-yum localinstall -y rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm
-systemctl start nginx
-systemctl status nginx
-mkdir /usr/share/nginx/html/repo
-cp rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /usr/share/nginx/html/repo/
-wget https://downloads.percona.com/downloads/percona-release/percona-release-0.1-6/redhat/percona-release-0.1-6.noarch.rpm -O /usr/share/nginx/html/repo/percona-release-0.1-6.noarch.rpm
-createrepo /usr/share/nginx/html/repo/
-\cp /vagrant/default.conf /etc/nginx/conf.d/default.conf
-nginx -t
-nginx -s reload
+yum install -y httpd
+systemctl start httpd
+systemctl status httpd
+mkdir /var/www/html/repo
+cp rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /var/www/html/repo/
+wget https://downloads.percona.com/downloads/percona-release/percona-release-0.1-6/redhat/percona-release-0.1-6.noarch.rpm -O /var/www/html/repo/percona-release-0.1-6.noarch.rpm
+createrepo /var/www/html/repo/
 curl -a http://localhost/repo/
 cat >> /etc/yum.repos.d/otus.repo << EOF
 [otus]
